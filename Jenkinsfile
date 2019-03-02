@@ -11,7 +11,7 @@ pipeline {
           sh "echo ${env.BUILD_NUMBER}"
           sh "echo ${env.WORKSPACE}"
           sh "touch archivo.txt"
-          sh "mkdir micarpeta"
+          sh "mkdir -p micarpeta"
           sh "touch micarpeta/mifile.txt"
         }
       }
