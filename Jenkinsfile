@@ -74,7 +74,7 @@ pipeline {
           echo "Aplicamos el cambio"
         }
       }
-
+    }
     post {
       always {
           sh "zip -r ${env.ARTIFACT} ./"
@@ -89,7 +89,6 @@ pipeline {
         slackSendMessage "danger"
       }
     }
-
 }
 
 def slackSendMessage(String color){
