@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
       ARTIFACT = "${env.BUILD_NUMBER}.zip"
-      SLACK_MESSAGE = "Job '${env.JOB_NAME}' Build ${env.BUILD_NUMBER} URL ${env.JENKINS_URL}"
+      SLACK_MESSAGE = "Job '${env.JOB_NAME}' Build ${env.BUILD_NUMBER} URL ${env.BUILD_URL}"
     }
     parameters {
       string(name: 'SLACK_CHANNEL', defaultValue:'#deploys', description: '')
@@ -33,6 +33,7 @@ pipeline {
       stage('Build') {
         steps {
           sh "echo ${env.BUILD_NUMBER}"
+          sh "spmkdir -p prueba"
           sh "echo ${env.WORKSPACE}"
           sh "touch archivo.txt"
           sh "mkdir -p micarpeta"
