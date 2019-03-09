@@ -33,7 +33,6 @@ pipeline {
       stage('Build') {
         steps {
           sh "echo ${env.BUILD_NUMBER}"
-          sh "spmkdir -p prueba"
           sh "echo ${env.WORKSPACE}"
           sh "touch archivo.txt"
           sh "mkdir -p micarpeta"
@@ -43,6 +42,7 @@ pipeline {
             def ID = sh(returnStdout: true, script: "./ami_id.sh ${env.BUILD_NUMBER}").trim() 
             sh "./build_ami.sh ${ID} prueba"
           }
+          sh "git rev-parse HEAD"
           echo "${env.SLACK_MESSAGE}"
           echo "${params.SLACK_CHANNEL}"
           echo "${params.TYPE}"
@@ -62,6 +62,16 @@ pipeline {
             [$class: 'StringParameterValue', name: 'SLACK', value: '#deploys']
           ]
         }
+      }
+    }
+
+    stage ('Apply') {
+      input {
+        message "Are you sure?"
+        ok "Yes"
+      }
+      steps {
+        echo "Aplicamos el cambio"
       }
     }
 
