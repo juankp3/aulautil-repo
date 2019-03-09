@@ -65,7 +65,7 @@ pipeline {
       }
     }
 
-    stage ('Apply') {
+    stage('Apply') {
       input {
         message "Are you sure?"
         ok "Yes"
