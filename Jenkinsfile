@@ -58,15 +58,6 @@ pipeline {
         steps {
           sh "echo ok"
         }
-        steps {
-          sh "ls -la"
-          sh "ls -la micarpeta"
-          sh 'echo deploy'
-          echo "${env.SLACK_MESSAGE}"
-          echo "${params.SLACK_CHANNEL}"
-          echo "${params.TYPE}"
-          echo "${params.LAUNCH_CONFIGURATION}"
-        }
       }
     }
 }
