@@ -46,10 +46,6 @@ pipeline {
           echo "${params.SLACK_CHANNEL}"
           echo "${params.TYPE}"
           echo "${params.LC}"
-          sh "zip -r ${env.ARTIFACT} ./"
-          archiveArtifacts artifacts: "${env.ARTIFACT}", onlyIfSuccessful: true
-          sh "rm -f ${env.ARTIFACT}"
-
         }
       }
       stage('Deploy') {
@@ -67,4 +63,27 @@ pipeline {
         }
       }
     }
+
+    post {
+      always {
+          sh "zip -r ${env.ARTIFACT} ./"
+          archiveArtifacts artifacts: "${env.ARTIFACT}", onlyIfSuccessful: true
+          sh "rm -f ${env.ARTIFACT}"
+          echo "Job has finished"
+      }
+      success {
+        slackSendMessage "good"
+      }
+      failure {
+        slackSendMessage "danger"
+      }
+    }
+
+}
+
+def slackSendMessage(String color){
+  slackSend channel: "${params.SLACK_CHANNEL}",
+  color: color,
+  failOnError: true,
+  message: "$SLACK_MESSAGE"
 }
