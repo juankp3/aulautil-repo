@@ -12,12 +12,12 @@ pipeline {
     parameters {
       string(name: 'SLACK_CHANNEL', defaultValue:'#deploys', description: '')
       choice(name: 'TYPE', choices: 'aut\ncron\ndata',description: 'Autoscaling, Cron or Data')
-      booleanParam(name: 'LAUNCH_CONFIGURATION', defaultValue: false, description: 'Update aws launchconfiguration with the new ami')
+      booleanParam(name: 'LC', defaultValue: false, description: 'Update aws launchconfiguration with the new ami')
     }
     stages {
       stage('Repository') {
         steps {
-           checkout scm
+          checkout scm
         }
       }
       stage('Test') {
@@ -42,9 +42,22 @@ pipeline {
             def ID = sh(returnStdout: true, script: "./ami_id.sh ${env.BUILD_NUMBER}").trim() 
             sh "./build_ami.sh ${ID} prueba"
           }
+          echo "${env.SLACK_MESSAGE}"
+          echo "${params.SLACK_CHANNEL}"
+          echo "${params.TYPE}"
+          echo "${params.LC}"
+
         }
       }
       stage('Deploy') {
+        when {
+          expression {
+            return params.LC ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/
+          }
+        }
+        steps {
+          sh "echo ok"
+        }
         steps {
           sh "ls -la"
           sh "ls -la micarpeta"
@@ -55,5 +68,5 @@ pipeline {
           echo "${params.LAUNCH_CONFIGURATION}"
         }
       }
-   }
+    }
 }
