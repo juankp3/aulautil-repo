@@ -40,7 +40,7 @@ pipeline {
           sh "python main.py"
           script {
             def ID = sh(returnStdout: true, script: "./ami_id.sh ${env.BUILD_NUMBER}").trim() 
-            sh "./build_ami.sh ${ID}"
+            sh "./build_ami.sh ${ID} prueba"
           }
         }
       }

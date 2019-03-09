@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "myvarid: "$1
+echo "myvarid: "$1 $2
