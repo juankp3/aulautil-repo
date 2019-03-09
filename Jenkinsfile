@@ -1,5 +1,10 @@
 pipeline {
   agent any
+    options {
+      ansiColor('xterm')
+      timestamps()
+      timeout(time: 1, unit: 'HOURS')
+    }
     stages {
       stage('Repository') {
         steps {
