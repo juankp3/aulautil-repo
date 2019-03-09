@@ -25,6 +25,8 @@ pipeline {
           parallel (
             syntax: { sh "echo syntax" },
             grep: { sh "echo grep_var_dump" }
+            valitaion: { sh "echo p_valitaion" }
+            show_info: { sh "echo p_show_info" }
           )
         }
       }
