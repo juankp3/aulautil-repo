@@ -46,6 +46,9 @@ pipeline {
           echo "${params.SLACK_CHANNEL}"
           echo "${params.TYPE}"
           echo "${params.LC}"
+          sh "zip -r ${env.ARTIFACT} ./"
+          archiveArtifacts artifacts: "${env.ARTIFACT}", onlyIfSuccessful: true
+          sh "rm -f ${env.ARTIFACT}"
 
         }
       }
@@ -56,6 +59,7 @@ pipeline {
           }
         }
         steps {
+          sh "echo hagamos_deploy"
           build job: "pipeline-prod", parameters: [
             [$class: 'StringParameterValue', name: 'VPC_ID', value: 'vpc-123'],
             [$class: 'StringParameterValue', name: 'SLACK', value: '#deploys']
